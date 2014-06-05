@@ -32,19 +32,7 @@ long long mod_pow(long long a,int k)
 		(a*=a)%=mod;k>>=1;
 	}
 	return ret;
-}/*
-long long mod_pow(long long a,int k)
-{
-	int x1=1,x2=0,x3=mod;
-	int y1=0,y2=1,y3=a;
-	while (y3!=1)
-	{
-		int kk=x3/y3;
-		x1-=y1*kk;x2-=y2*kk;x3-=y3*kk;
-		swap(x1,y1),swap(x2,y2),swap(x3,y3);
-	}
-	return y2>=0?y2:y2+mod;
-}*/
+}
 int fft_size;
 Int w[maxm],tmp[maxm],fft_a[maxm],fft_b[maxm];
 Int ns[maxm],s[maxm],rs[maxm],nrs[maxm];
