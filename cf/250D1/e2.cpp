@@ -23,7 +23,7 @@ struct Int{
 	friend Int operator * (const Int a,const Int b){return Int((long long)(a.a)*b.a);}
 	inline Int div2() const {return Int((i64d(a)*((mod+1)/2)));}
 };
-long long mod_pow(long long a,int k)
+inline long long mod_pow(long long a,int k)
 {
 	long long ret=1;
 	while (k)
@@ -124,11 +124,7 @@ int main()
 	c[0]=1;
 	N=1;
 	while (N<=m) N<<=1;
-//	for (int i=0;i<=m;i++) printf("%lld\n",c[i]);
-//	printf("~~~~~~~~\n");
 	poly_sqrt(N,c,f);
-//	for (int i=0;i<=N;i++) printf("%lld\n",f[i]);
-//	printf("~~~~~~~~\n");
 	(f[0]=f[0]+1);
 	for (int i=0;i<N;i++) f[i]=f[i]*((mod+1)/2);
 	poly_inv(N,f,F);
