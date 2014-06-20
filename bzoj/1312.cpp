@@ -60,7 +60,7 @@ double dfs(int u,double f)
 	return rt;
 }
 int m,n;
-double dinic(int mid)
+double dinic(double mid)
 {
 	double fl=tot=0;
 	memset(h,-1,sizeof(h));
