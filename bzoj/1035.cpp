@@ -18,9 +18,9 @@ struct Point
 	{return Point(a.x+b.x,a.y+b.y);}
 	friend Point operator - (const Point &a,const Point &b)
 	{return Point(a.x-b.x,a.y-b.y);}
-	friend int operator * (const Point &a,const Point &b)
+	friend long long operator * (const Point &a,const Point &b)
 	{return a.x*b.y-a.y*b.x;}
-	friend int operator / (const Point &a,const Point &b)
+	friend long long operator / (const Point &a,const Point &b)
 	{return a.x*b.x+a.y*b.y;}
 }Center[maxn];
 map<Point,int> hash1;
@@ -50,7 +50,7 @@ map<Line,int> hash2;
 vector<Line> P[maxm];
 vector<int> ans[maxn];
 bool across(const Line &a,const Line &b)
-{return ((a.b-a.a)*(b.a-a.a))*((a.b-a.a)*(b.b-a.a));}
+{return ((a.b-a.a)*(b.a-a.a))*((a.b-a.a)*(b.b-a.a))<=0 && ((b.b-b.a)*(a.a-b.a))*((b.b-b.a)*(a.b-b.a))<=0;}
 struct Poly
 {
 	vector<Point> P;
@@ -74,7 +74,7 @@ struct Poly
 	bool Chk(const Point &p)
 	{
 		bool ret=0;
-		Line ejq=Line(Point(-1e5,p.y),p);
+		Line ejq=Line(Point(-100001,p.y),p);
 		for (int i=0;i<P.size();i++)
 		{
 			Line now(P[i],P[(i+1)%P.size()]);
@@ -134,11 +134,18 @@ int main()
 	for (int i=1;i<=s;i++)
 		Area[i].Work();
 	sort(&Area[1],&Area[n+1]);
+//	for (int i=1;i<=n;i++)
+//	{
+//		for (int j=0;j<Area[i].P.size();j++)
+//			printf("(%d,%d),",Area[i].P[j].x,Area[i].P[j].y);
+//		printf("\n");
+//	}
 	for (int i=1;i<=n;i++)
 		for (int j=1;j<=n;j++)
 			if (Area[j].Chk(Center[i]))
 			{
 				Area[j].num=i;
+//				cerr<<i<<"<-"<<j<<endl;
 				break;
 			}
 	memset(pos,0,sizeof(pos));
@@ -174,5 +181,6 @@ int main()
 		for (int j=0;j<ans[i].size();j++)
 			printf("%d%c",ans[i][j],j<ans[i].size()-1?' ':'\n');
 	}
+//	cerr<<across(Line(Point(-10000,17),Point(12,17)),Line(Point(10,0),Point(10,10)))<<endl;
 	return 0;
 }
