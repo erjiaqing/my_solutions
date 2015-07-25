@@ -4,22 +4,36 @@ int beg , n , qn;
 int main()
 {
 	int q;
-	ios::sync_with_stdio(0);
-	cin >> n;
+	while (scanf("%d" , &n) == 1)
+	{
+		beg = qn = 0;
 	if (n <= 3)
 	{
-		return 0 & (printf("-1\n"));
+		(printf("-1\n"));
+		continue;
 	}
 	if (n == 4)
-		return 0 & printf("1 * 2\n5 + 3\n6 + 4\n");
-	else if (n == 5)
-		return 0 & printf("1 * 2\n6 * 3\n7 - 4\n8 / 5\n");
+	{
+		printf("1 * 2\n5 + 3\n6 + 4\n");
+		continue;
+	}else if (n == 5)
+	{
+		printf("1 * 2\n6 * 3\n7 - 4\n8 / 5\n");
+		continue;
+	}
 	else if (n == 6)
-		return 0 & printf("1 + 2\n7 + 3\n8 + 4\n5 / 6\n9 / 10\n");
+	{
+		printf("1 + 2\n7 + 3\n8 + 4\n5 / 6\n9 / 10\n");
+		continue;
+	}
 	else if (n == 7)
-		return 0 & printf("1 + 2\n8 + 3\n9 / 4\n5 / 6\n7 + 11\n13 * 10\n");
+	{
+		 printf("1 + 2\n8 + 3\n9 / 4\n5 / 6\n7 + 11\n12 * 10\n");
+		 continue;
+	}
 	else if (n == 15)
-		return 0 & printf(
+	{
+		printf(
 				"1 / 2\n"
 				"3 / 4\n"
 				"5 / 6\n"
@@ -34,8 +48,10 @@ int main()
 				"24 * 26\n"
 				"15 + 27\n"
 				"28 * 22\n");
-	else if (n == 16)
-		return 0 & printf(
+		continue;
+	}else if (n == 16)
+	{
+		printf(
 				"1 / 2\n"
 				"3 / 4\n"
 				"5 / 6\n"
@@ -51,6 +67,8 @@ int main()
 				"28 - 27\n"
 				"29 - 22\n"
 				"30 - 23\n");
+		continue;
+	}
 	beg = 1;
 	qn = n;
 	int tn = n;
@@ -119,6 +137,7 @@ int main()
 			qn += 3;
 			lst -= 3;
 		}
+	}
 	}
 	return 0;
 }
