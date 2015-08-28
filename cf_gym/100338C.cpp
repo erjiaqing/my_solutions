@@ -19,11 +19,12 @@ map<pii , int> md;
 vector<int> e[maxn];
 int n , m;
 struct Pri{
-    int v,c;
+    int v;
+	long long c;
     Pri(){}
-    Pri(int _v , int _c):v(_v) , c(_c){}
+    Pri(int _v , long long _c):v(_v) , c(_c){}
     bool operator <(Pri o)const{
-        return d[v]+c > d[o.v]+o.c;
+        return c > o.c;
     }
 };
 typedef vector<Pri>::iterator iter;
@@ -35,17 +36,16 @@ void dijkstra(int scr){
     q.push( Pri(scr,0) );
     while(!q.empty() ){
         Pri t=q.top();
+		q.pop();
+		if (vis[t.v]) continue;
         vis[t.v]=1;
         for(iter it=p[t.v].begin();it!=p[t.v].end();it++){
             if(d[it->v] > d[t.v] + it->c){
                 d[it->v] = d[t.v] + it->c;
                 if(!vis[it->v])
-                    q.push( Pri( it->v,0) );
+                    q.push( Pri( it->v,d[it->v]) );
             }
         }
-        while(!q.empty())
-            if(vis[q.top().v])q.pop();
-            else break;
     }
 }
 void spfa(int beg)
@@ -76,7 +76,7 @@ int dfn[maxn] , low[maxn];
 void cbridge(int cur , int father , int dep)
 {
     vis[cur] = 1;dfn[cur] = low[cur] = dep;
-    int children = 0;
+//    int children = 0;
     int v;
     for (int i = 0 ; i < e[cur].size() ; i++)
     {
