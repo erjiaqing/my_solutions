@@ -27,7 +27,7 @@ void dfs(int u, int father, int dep)
 		if (vis[v] == 1) low[u] = min(low[u], dfn[v]);
 		if (vis[v] == 0)
 		{
-			dfs(i, dep + 1);
+			dfs(v, u, dep + 1);
 			children++;
 			if (low[v] < low[u]) low[u] = low[v];
 			if ((father == -1 && children > 1) || (father != -1 && low[v] > dfn[u]))
@@ -43,12 +43,14 @@ void dfs(int u, int father, int dep)
 }
 void build_dfs_tree(int u, int nid)
 {
-	flg[u] = true;
-	if (cur[u])
+	flg[u] = nid;
+	if (cut[u])
 	{
 		sze[u] = 1;
-		eu[u].push_back[nid];
-		eu[nid].push_back[u];
+		eu[u].push_back(nid);
+		eu[nid].push_back(u);
+		cerr << u << " <-> " << nid << endl;
+		return;
 	}else
 	{
 		sze[nid]++;
@@ -56,9 +58,25 @@ void build_dfs_tree(int u, int nid)
 	for (int i = 0; i < e[u].size(); i++)
 	{
 		int v = e[u][i];
-		if (!flg[v])
+		if (flg[v] != nid)
 			build_dfs_tree(v, nid);
 	}
+}
+void dfs1(int u, int fa)
+{
+	dn[u] = sze[u];
+	for (int i = 0; i < eu[u].size(); i++)
+		if (eu[u][i] != fa)
+		{
+			dfs1(eu[u][i], u);
+			dn[u] += dn[eu[u][i]];
+		}
+}
+void dfs2(int u, int fa)
+{
+	for (int i = 0; i < eu[u].size(); i++)
+		if (eu[u][i] != fa)
+			up[eu[u][i]] = dn[u] - dn[eu[u][i]] + up[u];
 }
 int main()
 {
@@ -77,8 +95,26 @@ int main()
 	for (int i = 1; i <= n; i++)
 		if (!vis[i])
 			dfs(1, -1, 0);
+	int root = 1;
 	for (int i = 1; i <= n; i++)
-		if (!flg[i])
+		if ((!flg[i]) && (!cut[i]))
+		{
+			root = n + i;
 			build_dfs_tree(i, n + i);
+		}else if (cut[i])
+		{
+			for (int j = 0; j < ce[i].size(); j++)
+				eu[i].push_back(ce[i][j]);
+		}
+	dfs1(root, -1);
+	dfs2(root, -1);
+	for (int i = 1; i <= 2 * n; i++)
+	{
+		printf("%d %d %d %d\n", i, up[i], dn[i], sze[i]);
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		printf("%d\n", n - 1 + up[i] * dn[i]);
+	}
 	return 0;
 }
