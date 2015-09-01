@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-//#include <iostream>
 using namespace std;
 typedef long long ll;
 #define rep(i,l,r) for (i=l;i<=r;i++)
@@ -32,8 +31,8 @@ struct arr
        inline void reset(ll Len)
        {
               len = Len;
-			  memset(a, 0, sizeof(a));
-			  memset(y, 0, sizeof(y));
+			  //memset(a, 0, sizeof(a));
+			  //memset(y, 0, sizeof(y));
        }
        inline void DFT(ll L, ll R)
        {
@@ -124,12 +123,11 @@ inline void Solve()
 	Ans[2].reset(len);
 	Ans[2].a[2] = 2;
 	Ans[2].a[3] = 1;
-//	cerr << Ans[1].len - 1 << endl;
-//	cerr << Ans[2].len - 1 << endl;
-//	for (int i = 0; i < maxn; i++) cerr << Ans[1].a[i] << " ";
-	cerr << endl;
+	T[2].reset(len);
+	T[2].a[1] = 1;
 	Ans[1].DFT(0, Ans[1].len - 1);
 	Ans[2].DFT(0, Ans[2].len - 1);
+	T[2].DFT(0, T[2].len - 1);
 	T[0].reset(len);
 	T[1].reset(len);
 	for (int i = 3; i <= k; i++)
@@ -140,16 +138,8 @@ inline void Solve()
 			T[0].y[j] = (Ans[i - 1].y[j] * Ans[i - 1].y[j]) % P;
 			T[1].y[j] = (Ans[i - 1].y[j] * Ans[i - 2].y[j]) % P;
 		}
-		T[0].DFTf(0, T[0].len - 1);
-		T[1].DFTf(0, T[1].len - 1);
 		for (int j = 0; j < len; j++)
-		{
-			if (j < len - 1)
-				Ans[i].a[j + 1] = (T[0].a[j] + T[1].a[j] * 2) % P;
-		}
-//		for (int j = 0; j < 20; j++) printf("%3lld ", Ans[i].a[j]);
-//		printf("\n");
-		Ans[i].DFT(0, Ans[i].len - 1);
+			Ans[i].y[j] = ((T[0].y[j] + T[1].y[j] * 2) % P * T[2].y[j]) % P;
 	}
 	Ans[k].DFTf(0, Ans[k].len - 1);
 	printf("%lld\n", Ans[k].a[n]);

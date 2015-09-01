@@ -7,6 +7,7 @@ const int mod = 786433;
 long long w[131075],INTs[18][131075];
 long long x[131075];
 long long w1[131075];
+long long frac[65536];
 //int maxsize[20];
 int t = 6, g = 10;
 int inv[mod];
@@ -104,12 +105,9 @@ void fft_ifft_common(int size,long long which[],int flg = false)
 				int a=group_start+j;
 				int b=group_start+j+group_step;
 				high=which[a];
-				low=which[b]*www % mod;
-				which[a]=high+low;
-				if (which[a] >= mod) which[a] -= mod;
-				which[b]=high-low;
-				if (which[b] >= mod) which[b] -= mod;
-				if (which[b] < 0) which[b] += mod;
+				low=which[b] * www % mod;
+				which[a] = (high+low) % mod;
+				which[b] = ((high-low) % mod + mod) % mod;
 				www = www * ww % mod;
 			}
 		}
@@ -136,37 +134,25 @@ void ifft(long long which[],int len)
 int n, k;
 void solve()
 {
-	int fftsize = 1;
+	int fftsize = 131072;
 	int maxsize = 0;
 	int m = 0, tm;
 	long long *i_1, *i_2, *t1, *t2, *th;
-	while(fftsize < n * 2) fftsize <<= 1;
+//	while(fftsize < n * 2) fftsize <<= 1;
 	tm = fftsize;
 	while (tm)
 	{
 		m++;
 		tm>>=1;
 	}
-	memset(INTs, 0, sizeof(INTs));
 	x[1] = 1;
 	INTs[0][1] = 1;
 	INTs[1][2] = 2;
 	INTs[1][3] = 1;
-	INTs[2][4] = 4;INTs[2][5] = 6;INTs[2][6] = 4;INTs[2][7] = 1;
-	INTs[3][7] = 16;INTs[3][8] = 32;INTs[3][9] = 44;INTs[3][10] = 60;INTs[3][11] = 70;INTs[3][12] = 56;INTs[3][13] = 28;
-	INTs[3][14] = 8;INTs[3][15] = 1;
-	if (k < 4)
-	{
-		printf("%lld\n", INTs[k][n]);
-		return;
-	}
-//	maxsize[2] = 7;
-//	maxsize[3] = 15;
-	fft(INTs[2], fftsize);
-	fft(INTs[3], fftsize);
+	fft(INTs[0], fftsize);
+	fft(INTs[1], fftsize);
 	fft(x, fftsize);
-//	for (int i = 0; i <= 10; i++) printf("%lld ", INTs[0][i]);
-	for (int i = 4; i <= k; i++)
+	for (int i = 2; i <= k; i++)
 	{
 		t1 = INTs[16];
 		t2 = INTs[17];
@@ -179,24 +165,7 @@ void solve()
 			t2[j] = i_1[j] * i_2[j] % mod;
 		}
 		for (int j = 0; j < fftsize; j++)
-			printf("%lld ",x[j] * ( t1[j] + t2[j] * 2 ) % mod );
-		printf("\n");
-		ifft(t1, fftsize);
-		ifft(t2, fftsize);
-		th[0] = 0;
-//		maxsize = min(n, (1 << (i + 1)) - 1);
-		for (int j = 1; j < fftsize; j++)
-		{
-			int kk = j;
-//			int kk = rev[m - 1][j];
-			th[kk] = t1[kk - 1] + t2[kk - 1] * 2;
-			while (th[kk] >= mod) th[kk] -= mod;
-		}
-		fft(th, fftsize);
-		for (int j = 0; j < fftsize; j++)
-			printf("%lld ",x[j] * ( t1[j] + t2[j] * 2 ) % mod );
-		printf("\n");
-//		fft(th, fftsize);
+			th[j] = ((t1[j] + t2[j] * 2) % mod) * x[j] % mod;
 	}
 	ifft(INTs[k], fftsize);
 	printf("%lld\n", (INTs[k][n] % mod + mod) % mod);
@@ -207,7 +176,6 @@ int main()
 	freopen("avl.in", "r", stdin);
 	freopen("avl.out", "w", stdout);
 #endif
-//	for (int i = 1; i < mod; i++) inv[i] = fastpow(i, mod - 2);
 	for (int i = 0; i < 18; i++)
 		for (int j = 0; j < 131072; j++)
 			rev[i][j] = bit_rev(j ,i);
