@@ -24,6 +24,7 @@ int main() {
 			mk[r1][c1] = true;
 			int r2 = (a[i] - 1) / 3 + 1;
 			int c2 = (a[i] - 1) % 3 + 1;
+			if (mk[r2][c2]) flg = false;
 			if ((r2 - r1 == 2 || r2 - r1 == -2) && (c2 - c1 == 2 || c2 - c1 == -2)) {
 				flg = flg && mk[(r2 + r1) / 2][(c2 + c1) / 2];
 			} else
@@ -33,7 +34,6 @@ int main() {
 			if ((r2 - r1 == 0) && (c2 - c1 == 2 || c2 - c1 == -2)) {
 				flg = flg && mk[r2][(c2 + c1) / 2];
 			} else {
-				if (mk[r2][c2]) flg = false;
 				mk[r2][c2] = true;
 			}
 		}
