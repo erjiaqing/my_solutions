@@ -331,7 +331,7 @@ fn main() {
         "32042f46431d2c44607934ed180c1028136a5f2b26092e3b2c4e2930585a",
     ];
 
-    let original = originals.iter().map(|x| hex_to_bytes(String::from(*x)));
+    let original = originals.iter().map(|x| hex_to_bytes(&String::from(*x)));
     let mut index = 0;
 
     for o in original {

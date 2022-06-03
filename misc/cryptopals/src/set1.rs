@@ -13,10 +13,10 @@ pub fn hex_to_byte(c: u8) -> u8 {
     }
 }
 
-pub fn hex_to_bytes(s: String) -> Vec<u8> {
+pub fn hex_to_bytes(s: &String) -> Vec<u8> {
     let mut v: Vec<u8> = Vec::new();
 
-    let string_bytes = s.into_bytes();
+    let string_bytes = s.as_bytes();
 
     for i in 0..string_bytes.len() / 2 {
         let hi = hex_to_byte(string_bytes[i * 2]);
@@ -27,7 +27,7 @@ pub fn hex_to_bytes(s: String) -> Vec<u8> {
     return v;
 }
 
-pub fn bytes_to_hex(v: Vec<u8>) -> String {
+pub fn bytes_to_hex(v: &Vec<u8>) -> String {
     let mut s: String = String::new();
 
     for val in v {
@@ -50,7 +50,7 @@ pub fn bytes_to_hex(v: Vec<u8>) -> String {
     return s;
 }
 
-pub fn bytes_to_base64(v: Vec<u8>) -> String {
+pub fn bytes_to_base64(v: &Vec<u8>) -> String {
     let mut s: String = String::new();
     let base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".as_bytes();
 
@@ -59,13 +59,13 @@ pub fn bytes_to_base64(v: Vec<u8>) -> String {
 
     for val in v {
         if index == 0 {
-            reg = reg | ((val as u32) << 16);
+            reg = reg | ((*val as u32) << 16);
             index = 1
         } else if index == 1 {
-            reg = reg | ((val as u32) << 8);
+            reg = reg | ((*val as u32) << 8);
             index = 2
         } else if index == 2 {
-            reg = reg | (val as u32);
+            reg = reg | (*val as u32);
             index = 0;
             s.push(base64[((reg >> 18) & (0x3f)) as usize] as char);
             s.push(base64[((reg >> 12) & (0x3f)) as usize] as char);
@@ -118,19 +118,33 @@ pub fn base64_to_bytes(b64: String) -> Vec<u8> {
     let mut v = Vec::new();
     let mut index = 0;
     let mut reg: u32 = 0;
+    let mut eq = 0;
     for ch in b64.chars() {
-        let vl = base64_reverse_lookup(ch) as u32;
-        if vl >= 64 {
-            continue;
+        if ch != '=' {
+            let vl = base64_reverse_lookup(ch) as u32;
+            if vl >= 64 {
+                continue;
+            }
+            reg = ((reg << 6) as u32) | vl;
+        } else {
+            reg = reg << 6;
+            eq += 1;
         }
-        reg = ((reg << 6) as u32) | vl;
         index += 1;
         if index == 4 {
             v.push(((reg >> 16) & 0xFF) as u8);
-            v.push(((reg >> 8) & 0xFF) as u8);
-            v.push((reg & 0xFF) as u8);
+            if eq <= 1 {
+                v.push(((reg >> 8) & 0xFF) as u8);
+            }
+            if eq == 0 {
+                v.push((reg & 0xFF) as u8);
+            }
             index = 0;
         }
+    }
+    while index != 4 {
+        reg = reg << 6;
+        index += 1;
     }
     return v;
 }

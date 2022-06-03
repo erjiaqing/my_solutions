@@ -6,6 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+openssl-sys = "0.9"
+openssl = "0.10"
 
 
 [[bin]]
@@ -31,3 +33,11 @@ path="src/standalone/1_5_rotation_key_xor.rs"
 [[bin]]
 name="1_6_break_repeating_key_xor"
 path="src/standalone/1_6_break_repeating_key_xor.rs"
+
+[[bin]]
+name="1_7_aes_in_ecb_mode"
+path="src/standalone/1_7_aes_in_ecb_mode.rs"
+
+[[bin]]
+name="1_8_detect_aes_in_ecb_mode"
+path="src/standalone/1_8_detect_aes_in_ecb_mode.rs"
