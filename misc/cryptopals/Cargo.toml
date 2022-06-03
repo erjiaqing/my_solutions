@@ -6,3 +6,28 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+
+[[bin]]
+name="1_1_convert_hex_to_base64"
+path="src/standalone/1_1_convert_hex_to_base64.rs"
+
+[[bin]]
+name="1_2_fixed_xor"
+path="src/standalone/1_2_fixed_xor.rs"
+
+[[bin]]
+name="1_3_single_byte_xor_cipher"
+path="src/standalone/1_3_single_byte_xor_cipher.rs"
+
+[[bin]]
+name="1_4_detect_single_byte_xor_cipher"
+path="src/standalone/1_4_detect_single_byte_xor_cipher.rs"
+
+[[bin]]
+name="1_5_rotation_key_xor"
+path="src/standalone/1_5_rotation_key_xor.rs"
+
+[[bin]]
+name="1_6_break_repeating_key_xor"
+path="src/standalone/1_6_break_repeating_key_xor.rs"
