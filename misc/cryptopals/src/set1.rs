@@ -90,7 +90,7 @@ pub fn bytes_to_base64(v: &Vec<u8>) -> String {
     return s;
 }
 
-pub fn fixed_xor(v1: &Vec<u8>, v2: &Vec<u8>) -> Vec<u8> {
+pub fn fixed_xor(v1: &[u8], v2: &[u8]) -> Vec<u8> {
     let mut v = Vec::new();
     v.reserve(v1.len());
     for i in 0..v1.len() {
@@ -157,7 +157,7 @@ pub fn rotation_key_xor(key: &Vec<u8>, plain: &Vec<u8>) -> Vec<u8> {
     return v;
 }
 
-pub fn edit_distance(v1: &Vec<u8>, v2: &Vec<u8>) -> usize {
+pub fn edit_distance(v1: &[u8], v2: &[u8]) -> usize {
     let mut ret: usize = 0;
     for i in 0..v1.len() {
         let tv = v1[i] ^ v2[i];

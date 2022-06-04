@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 openssl-sys = "0.9"
 openssl = "0.10"
+rand = ">0.1"
 
 
 [[bin]]
@@ -41,3 +42,15 @@ path="src/standalone/1_7_aes_in_ecb_mode.rs"
 [[bin]]
 name="1_8_detect_aes_in_ecb_mode"
 path="src/standalone/1_8_detect_aes_in_ecb_mode.rs"
+
+[[bin]]
+name="2_9_implement_pkcs7_padding"
+path="src/standalone/2_9_implement_pkcs7_padding.rs"
+
+[[bin]]
+name="2_10_implement_cbc_mode"
+path="src/standalone/2_10_implement_cbc_mode.rs"
+
+[[bin]]
+name="2_11_an_ecb_cbc_detection_oracle"
+path="src/standalone/2_11_an_ecb_cbc_detection_oracle.rs"
