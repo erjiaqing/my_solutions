@@ -1,5 +1,5 @@
 use cryptopals::set1::*;
-use openssl::symm;
+use cryptopals::set2::*;
 
 fn main() {
     let key = "YELLOW SUBMARINE".as_bytes();
@@ -73,8 +73,7 @@ S15AVD2QS1V6fhRimJSVyT6QuGb8tKRsl2N+a2Xze36vgMhw7XK7zh//jC2H",
     println!("Key length: {}", key.len());
     println!("Ciphertext length: {}", ciphertext.len());
 
-    let aes_ecb = symm::Cipher::aes_128_ecb();
-    let plaintext = symm::decrypt(aes_ecb, &key, Option::None, &ciphertext).unwrap();
+    let plaintext = aes_128_ecb_decrypt(key, &ciphertext);
 
     println!("{:?}", String::from_utf8(plaintext));
 }
