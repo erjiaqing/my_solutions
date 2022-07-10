@@ -54,3 +54,7 @@ path="src/standalone/2_10_implement_cbc_mode.rs"
 [[bin]]
 name="2_11_an_ecb_cbc_detection_oracle"
 path="src/standalone/2_11_an_ecb_cbc_detection_oracle.rs"
+
+[[bin]]
+name="2_12_byte_at_a_time_ecb_decryption_simple"
+path="src/standalone/2_12_byte_at_a_time_ecb_decryption_simple.rs"
