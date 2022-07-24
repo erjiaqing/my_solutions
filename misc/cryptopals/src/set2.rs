@@ -3,6 +3,7 @@ use openssl::cipher::Cipher;
 use openssl::cipher_ctx::CipherCtx;
 use std::vec;
 use std::vec::Vec;
+use std::error::Error;
 
 pub fn pkcs7_padding(v: &[u8], blocksize: usize) -> Vec<u8> {
     let mut ret = v.to_vec();
@@ -15,6 +16,48 @@ pub fn pkcs7_padding(v: &[u8], blocksize: usize) -> Vec<u8> {
     }
 
     return ret;
+}
+
+pub fn pkcs7_unpadding(v: &[u8]) -> Result<&[u8], &'static str> {
+    if v.len() == 0 {
+        return Err("null input");
+    }
+
+    let npadding = v[v.len() - 1] as usize;
+    if npadding > v.len() {
+        return Err("incorrect padding");
+    }
+
+    for i in 1..=npadding {
+        if v[v.len() - i] as usize != npadding {
+            return Err("incorrect padding");
+        }
+    }
+
+    return Ok(&v[..v.len() - npadding])
+}
+
+pub fn pkcs7_unpadding_vec(mut v: Vec<u8>) -> Result<Vec<u8>, &'static str> {
+    if v.len() == 0 {
+        return Err("null input");
+    }
+
+    let npadding = v[v.len() - 1] as usize;
+    if npadding > v.len() {
+        return Err("incorrect padding");
+    }
+
+    for i in 1..=npadding {
+        if v[v.len() - i] as usize != npadding {
+            return Err("incorrect padding");
+        }
+    }
+
+    for _ in 0..npadding {
+        v.pop();
+    }
+
+    return Ok(v)
 }
 
 pub fn aes_128_ecb_encrypt_block(key: &[u8], plaintext: &[u8]) -> Vec<u8> {
@@ -112,12 +155,7 @@ pub fn aes_128_cbc_encrypt(key: &[u8], plaintext: &[u8], iv: &[u8]) -> Vec<u8> {
 }
 
 pub fn aes_128_ecb_decrypt(key: &[u8], cipher: &[u8]) -> Vec<u8> {
-    let mut padded = aes_128_ecb_decrypt_no_padding(key, cipher);
-    let padding_len = padded[padded.len() - 1];
-    for _ in 0..padding_len {
-        padded.pop();
-    }
-    return padded;
+    return pkcs7_unpadding_vec(aes_128_ecb_decrypt_no_padding(key, cipher)).unwrap();
 }
 
 pub fn aes_128_cbc_decrypt(key: &[u8], cipher: &[u8], iv: &[u8]) -> Vec<u8> {

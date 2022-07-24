@@ -66,3 +66,7 @@ path="src/standalone/2_13_ecb_cut_and_paste.rs"
 [[bin]]
 name="2_14_byte_at_a_time_ecb_decryption_harder"
 path="src/standalone/2_14_byte_at_a_time_ecb_decryption_harder.rs"
+
+[[bin]]
+name="2_15_pkcs7_padding_validation"
+path="src/standalone/2_15_pkcs7_padding_validation.rs"
