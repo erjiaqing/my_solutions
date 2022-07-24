@@ -58,3 +58,11 @@ path="src/standalone/2_11_an_ecb_cbc_detection_oracle.rs"
 [[bin]]
 name="2_12_byte_at_a_time_ecb_decryption_simple"
 path="src/standalone/2_12_byte_at_a_time_ecb_decryption_simple.rs"
+
+[[bin]]
+name="2_13_ecb_cut_and_paste"
+path="src/standalone/2_13_ecb_cut_and_paste.rs"
+
+[[bin]]
+name="2_14_byte_at_a_time_ecb_decryption_harder"
+path="src/standalone/2_14_byte_at_a_time_ecb_decryption_harder.rs"
