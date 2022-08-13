@@ -9,6 +9,7 @@ edition = "2021"
 openssl-sys = "0.9"
 openssl = "0.10"
 rand = ">0.1"
+twoway = "0.2.2"
 
 
 [[bin]]
@@ -70,3 +71,7 @@ path="src/standalone/2_14_byte_at_a_time_ecb_decryption_harder.rs"
 [[bin]]
 name="2_15_pkcs7_padding_validation"
 path="src/standalone/2_15_pkcs7_padding_validation.rs"
+
+[[bin]]
+name="2_16_cbc_bitflipping_attack"
+path="src/standalone/2_16_cbc_bitflipping_attack.rs"

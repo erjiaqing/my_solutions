@@ -3,7 +3,6 @@ use openssl::cipher::Cipher;
 use openssl::cipher_ctx::CipherCtx;
 use std::vec;
 use std::vec::Vec;
-use std::error::Error;
 
 pub fn pkcs7_padding(v: &[u8], blocksize: usize) -> Vec<u8> {
     let mut ret = v.to_vec();
